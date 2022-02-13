@@ -1,0 +1,34 @@
+//Gradle에서 buildscript는 별도의 외부 라이브러리를 가져와야 할 때 사용
+buildscript {
+    ext{    //전역변수 설정
+        springBootVersion = '2.1.7.RELEASE'
+    }
+
+    repositories {  //각 의존성(라이브러리)들을 어떤 원격 저장소에서 받을 것인지
+        mavenCentral()
+        //jcenter()
+    }
+
+    dependencies {  //위 레파지토리에서 사용할 의존성들을 입력
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+//자바와 스프링 부트를 사용하기 위한 필수 플러그인
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+}
+
