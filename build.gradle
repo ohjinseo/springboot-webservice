@@ -1,7 +1,7 @@
 //Gradle에서 buildscript는 별도의 외부 라이브러리를 가져와야 할 때 사용
 buildscript {
     ext{    //전역변수 설정
-        springBootVersion = '2.1.7.RELEASE'
+        springBootVersion = '2.2.0.RELEASE'
     }
 
     repositories {  //각 의존성(라이브러리)들을 어떤 원격 저장소에서 받을 것인지
