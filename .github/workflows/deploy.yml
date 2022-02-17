@@ -17,7 +17,8 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up JDK 1.8
-        uses: actions/setup-java@v1 # Github Action이 실행될 OS에 JAVA 설치치        with:
+        uses: actions/setup-java@v1 # Github Action이 실행될 OS에 JAVA 설치치
+        with:
           java-version: 1.8
 
       - name: Grant execute permission for gradlew
