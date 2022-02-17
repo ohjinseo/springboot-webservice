@@ -29,3 +29,13 @@ jobs:
         run: ./gradlew clean build # 권한 부여받고 프로젝트 빌드
         shell: bash
 
+      -name: Get current time
+       uses: 1466587594/get-current-time@v2
+       id: current-time
+       with:
+         format: YYYY-MM-DDTHH-mm-ss
+         utcOffset: "+09:00" # 한국 시간으로 맞춤
+
+      -name: Show Current Time
+       run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}" # 현재 시간 출력
+       shell: bash
