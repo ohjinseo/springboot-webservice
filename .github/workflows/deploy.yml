@@ -1,15 +1,13 @@
 name: springboot-webservice
 
-# push되면 master 브랜치가 트리거되도록 설정
 on:
   push:
     branches:
       - master
-  workflow_dispatch: # 수동 실행 가능
-
+  workflow_dispatch:
 
 jobs:
-  build: # 해당 Github Action 스크립트가 작동될 OS 환경
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,16 +15,16 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up JDK 1.8
-        uses: actions/setup-java@v1 # Github Action이 실행될 OS에 JAVA 설치
+        uses: actions/setup-java@v1
         with:
           java-version: 1.8
 
       - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew # gradle wrapper를 실행할 수 있도록 권한 부여
+        run: chmod +x ./gradlew
         shell: bash
 
       - name: Build with Gradle
-        run: ./gradlew clean build # 권한 부여받고 프로젝트 빌드
+        run: ./gradlew clean build
         shell: bash
 
       - name: Get current time
@@ -34,14 +32,13 @@ jobs:
         id: current-time
         with:
           format: YYYY-MM-DDTHH-mm-ss
-          utcOffset: "+09:00" # 한국 시간으로 맞춤
+          utcOffset: "+09:00"
 
       - name: Show Current Time
-        run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}" # 현재 시간 출력
+        run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}"
         shell: bash
 
-      # Gradle Build를 통해 만들어진 jar 파일을 Beanstalk에 배포하기 위한 zip 파일로 만들어줌
-      - name: Generate deployment package
+      - name: Generate deployment package # (1)
         run: |
           mkdir -p deploy
           cp build/libs/*.jar deploy/application.jar
@@ -50,15 +47,13 @@ jobs:
           cp -r .platform deploy/.platform
           cd deploy && zip -r deploy.zip .
 
-      - name: Deploy tp EB # Beanstalk 플러그인 사용
-        uses: einaregilsson/beanstalk-deploy@v20
+      - name: Deploy to EB # (2)
+        uses: einaregilsson/beanstalk-deploy@v14
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: springboot-webservice
-          environment_name: springboot-webservice
+          application_name: freelec-springboot2-webervice
+          environment_name: freelec-springboot2-webervice
           version_label: github-action-${{steps.current-time.outputs.formattedTime}}
           region: ap-northeast-2
           deployment_package: deploy/deploy.zip
-
-# https://jojoldu.tistory.com/549?category=777282
