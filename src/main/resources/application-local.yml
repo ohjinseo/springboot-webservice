@@ -15,5 +15,5 @@ spring:
     show_sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL57Dialect
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         storage_engine: innodb

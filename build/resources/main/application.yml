@@ -1,9 +1,12 @@
 spring:
+  datasource:
+    hikari:
+      jdbc-url: jdbc:h2:mem:testdb;MODE=MYSQL
+      username: sa
   session:
     store-type: jdbc
   profiles:
-    group:
-      local-real: local-real, oauth
+    include: local-real, oauth
     active: local
   jpa:
     show-sql: true
