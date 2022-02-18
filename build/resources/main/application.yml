@@ -2,13 +2,16 @@ spring:
   session:
     store-type: jdbc
   profiles:
-    include: oauth
+    group:
+      local-real: local-real, oauth
+    active: local
   jpa:
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        dialect: org.hibernate.dialect.MySQL57Dialect
+        storage_engine: innodb
   h2:
     console:
       enabled: true
